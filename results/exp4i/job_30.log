@@ -1,0 +1,2 @@
+job 30 {'net': 'diamond', 'dir': '100', 'start': (0.5, 0.5, 0.5), 'set': 'C', 'point': 1, 'vf': 0.7999999999999999, 'sig': 40.0}: N=13824000 box=651.3 loaded 11s
+point 1 v/c launch 0.8000 sigma 40.0: particle-only v/c 0.7911 (whole-box 0.7911) 1/tau 3.329e-15 ell 322256801242580 A | Gamma -0.000 max|ds| 0.00 s0 0.0000 | clock -0.56% norm 2.1e-13 build 111s total 257s
