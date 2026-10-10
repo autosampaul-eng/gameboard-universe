@@ -1,0 +1,2 @@
+job 19 {'net': 'diamond', 'vf': 0.8, 'dir': '123', 'start': (0.5, 0.5, 0.5), 'set': 'C'}: N=13824000 box=651.3 loaded 18s
+particle-only v/c 0.7866 (orig 4h tracker 0.7858, whole-box 0.7866, carrier vg 0.7919) D +0.00 halves +0.00% | ds250 +0.00 Gamma +0.000 max|ds| 0.00 | clock -0.80% norm 2.4e-12 w 0.2734-0.3483 build 96s total 313s
