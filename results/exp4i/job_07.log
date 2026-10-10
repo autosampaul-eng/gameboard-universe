@@ -1,0 +1,2 @@
+job 7 {'net': 'glass', 'dir': '100', 'start': (0.25, 0.25, 0.75), 'set': 'G', 'point': 2, 'vf': 0.7462904504042782, 'sig': 47.56828460010884}: N=13824000 box=651.3 loaded 4s
+point 2 v/c launch 0.7463 sigma 47.6: particle-only v/c 0.7060 (whole-box 0.7044) 1/tau 3.525e-04 ell 3103 A | Gamma +3.084 max|ds| 18.70 s0 0.0018 | clock -1.31% norm 2.9e-12 build 402s total 598s
