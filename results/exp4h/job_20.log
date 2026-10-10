@@ -1,0 +1,2 @@
+job 20 {'net': 'diamond', 'vf': 0.5, 'dir': '100', 'start': (0.5, 0.5, 0.5), 'set': 'C'}: N=13824000 box=651.3 loaded 18s
+particle-only v/c 0.4891 (whole-box 0.4889) D +0.01 halves +0.02% | s0 0.0325 startup ds -0.00pp Gamma -0.000pp/100t max|ds| 0.00 | clock -0.09% norm 3.2e-12 rms 143/143 build 304s total 512s
