@@ -1,0 +1,36 @@
+name: bigtest
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: diamond_x3_p5, net: diamond, tile: 3, point: 5 }
+          - { name: g216_x6_p5,    net: g216,    tile: 6, point: 5 }
+          - { name: g216_x4_p5,    net: g216,    tile: 4, point: 5 }
+          - { name: g216_x6_p1,    net: g216,    tile: 6, point: 1 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - name: Run ${{ matrix.name }}
+        working-directory: code
+        run: |
+          mkdir -p ../results/bigtest
+          free -g
+          python -u run_big.py --net ${{ matrix.net }} --tile ${{ matrix.tile }} --point ${{ matrix.point }} --ticks 600 --out ../results/bigtest/${{ matrix.name }}.json 2>&1 | tee ../results/bigtest/${{ matrix.name }}.log
+      - name: Save results into the repository
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/bigtest
+          git commit -m "bigtest ${{ matrix.name }} [skip ci]" || exit 0
+          for i in 1 2 3 4 5 6 7 8; do git pull --rebase -q && git push -q && exit 0; sleep $((RANDOM % 20 + 5)); done
+          exit 1
