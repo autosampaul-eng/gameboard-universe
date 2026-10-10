@@ -1,0 +1,2 @@
+job 24 {'net': 'glass_small_box', 'vf': 0.8, 'dir': '100', 'start': (0.75, 0.25, 0.25), 'set': 'D'}: N=1728000 box=325.6 loaded 1s
+particle-only v/c 0.7444 (orig 4h tracker 0.7437, whole-box 0.7416, carrier vg 0.8307) D +0.14 halves +0.55% | ds250 +18.55 Gamma +5.740 max|ds| 37.79 | clock -1.92% norm 5.0e-14 w 0.2819-0.3471 build 53s total 81s
