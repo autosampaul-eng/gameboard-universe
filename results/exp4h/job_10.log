@@ -1,0 +1,2 @@
+job 10 {'net': 'glass', 'vf': 0.8, 'dir': '123', 'start': (0.75, 0.75, 0.75), 'set': 'A'}: N=13824000 box=651.3 loaded 5s
+particle-only v/c 0.7443 (whole-box 0.7634) D -0.15 halves -0.61% | s0 0.0026 startup ds +16.49pp Gamma +5.194pp/100t max|ds| 34.76 | clock -1.70% norm 2.9e-12 rms 204/122 build 550s total 832s
