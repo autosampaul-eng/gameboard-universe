@@ -1,0 +1,10 @@
+[19:07:12] g216 x6: N=46,656,000 box=976.9 A loaded 4s rss 2.13 GB peak 2.15 GB
+[19:13:11] built: cg 475 e_in 6.7e-16 e_out 1.2e-10 358s rss 5.05 GB peak 8.70 GB
+[19:13:23] tick 0: ds +0.000 pp, rss 8.38 GB
+[19:15:39] tick 100: ds +6.424 pp, rss 8.38 GB
+[19:17:54] tick 200: ds +12.720 pp, rss 8.38 GB
+[19:20:09] tick 300: ds +18.393 pp, rss 8.38 GB
+[19:22:24] tick 400: ds +23.499 pp, rss 8.38 GB
+[19:24:42] tick 500: ds +28.365 pp, rss 8.38 GB
+[19:26:57] tick 600: ds +32.808 pp, rss 8.38 GB
+[19:26:57] RESULT particle-only v/c 0.74547 whole-box 0.77407 | 1/tau 6.599e-04 Gamma +4.909 max|ds| 32.808 s0 0.0028 | clock -1.82% norm 5.2e-12 | build 358s step 0.571s/tick total 1185s | PEAK 8.71 GB
