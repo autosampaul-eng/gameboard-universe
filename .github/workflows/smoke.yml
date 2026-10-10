@@ -1,0 +1,25 @@
+name: smoke-test
+on:
+  workflow_dispatch:
+  push:
+    paths: ['code/**', '.github/workflows/smoke.yml']
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - name: Machine info
+        run: nproc; free -m; python -c "import numpy,scipy,numba;print(numpy.__version__,scipy.__version__,numba.__version__)"
+      - name: Code check on the 216k test glass (new vs old code must agree)
+        working-directory: code
+        run: python -u test_4g.py | tee ../smoke_test.log
+      - name: Speed and memory check at 13.8M nodes
+        working-directory: code
+        run: python -u bench_runner.py | tee ../bench.log
+      - uses: actions/upload-artifact@v4
+        with: { name: smoke-logs, path: '*.log' }
