@@ -1,0 +1,10 @@
+[19:07:27] diamond x3: N=46,656,000 box=976.9 A loaded 19s rss 2.62 GB peak 2.77 GB
+[19:11:12] built: cg 485 e_in 7.8e-16 e_out 3.2e-09 225s rss 5.54 GB peak 9.19 GB
+[19:11:21] tick 0: ds +0.000 pp, rss 8.91 GB
+[19:13:20] tick 100: ds -0.000 pp, rss 8.91 GB
+[19:15:17] tick 200: ds +0.000 pp, rss 8.91 GB
+[19:17:15] tick 300: ds +0.000 pp, rss 8.91 GB
+[19:19:14] tick 400: ds +0.000 pp, rss 8.91 GB
+[19:21:11] tick 500: ds +0.000 pp, rss 8.91 GB
+[19:23:09] tick 600: ds +0.000 pp, rss 8.91 GB
+[19:23:09] RESULT particle-only v/c 0.54946 whole-box 0.54946 | 1/tau 7.978e-18 Gamma +0.000 max|ds| 0.000 s0 0.0000 | clock -0.15% norm 7.6e-13 | build 225s step 0.370s/tick total 942s | PEAK 9.24 GB
