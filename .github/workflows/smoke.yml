@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   push:
     paths: ['code/**', '.github/workflows/smoke.yml']
+permissions:
+  contents: write
 jobs:
   smoke:
     runs-on: ubuntu-latest
@@ -21,5 +23,10 @@ jobs:
       - name: Speed and memory check at 13.8M nodes
         working-directory: code
         run: python -u bench_runner.py | tee ../bench.log
-      - uses: actions/upload-artifact@v4
-        with: { name: smoke-logs, path: '*.log' }
+      - name: Save logs into the repository
+        if: always()
+        run: |
+          mkdir -p results/smoke && cp *.log results/smoke/ || true
+          (nproc; free -m) > results/smoke/machine.txt
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/smoke && git commit -m "smoke-test logs [skip ci]" && git pull --rebase && git push || echo nothing to push
