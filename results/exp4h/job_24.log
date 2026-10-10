@@ -1,0 +1,2 @@
+job 24 {'net': 'glass_small_box', 'vf': 0.8, 'dir': '100', 'start': (0.75, 0.25, 0.25), 'set': 'D'}: N=1728000 box=325.6 loaded 1s
+particle-only v/c 0.7437 (whole-box 0.7416) D +0.11 halves +0.47% | s0 0.0027 startup ds +18.55pp Gamma +5.740pp/100t max|ds| 37.79 | clock -1.89% norm 5.0e-14 rms 132/110 build 58s total 111s
