@@ -1,0 +1,2 @@
+job 6 {'net': 'glass', 'dir': '100', 'start': (0.5, 0.5, 0.5), 'set': 'G', 'point': 2, 'vf': 0.7462904504042782, 'sig': 47.56828460010884}: N=13824000 box=651.3 loaded 5s
+point 2 v/c launch 0.7463 sigma 47.6: particle-only v/c 0.7072 (whole-box 0.7034) 1/tau 3.702e-04 ell 2960 A | Gamma +3.249 max|ds| 19.46 s0 0.0017 | clock -1.22% norm 1.8e-12 build 609s total 944s
