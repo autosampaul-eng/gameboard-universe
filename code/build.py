@@ -125,7 +125,7 @@ def random_network(n, Lb, seed):
     nb, deg = greedy(pi[o].astype(np.int64), pj[o].astype(np.int64), n)
     print('greedy: deficient nodes', int((deg < 4).sum()), flush=True)
     it = 0
-    for p in range(80):
+    for p in range(int(__import__('os').environ.get('GBU_REPAIR_PASSES', 80))):
         it += repair(nb, deg, cand, seed + p, 50 * n)
         left = int((deg < 4).sum())
         print('repair pass', p, 'iterations', it, 'deficient left', left, flush=True)

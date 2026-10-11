@@ -58,3 +58,9 @@ Are these properties of this kind of glass, or of that one sample?
 - Both samples share the recipe: the same box, density and relaxation. A different recipe (for example, smoothed glass) is a separate question.
 
 Any outcome is reported as found.
+
+## Amendment 1 (October 10, 2026), before any s4 particle run
+- **What happened:** the first s4 build stopped at the builder's cap of 80 repair passes, with 2 nodes still one link short. The builder asserts that every node has 4 links, so nothing was saved.
+- **Fix:** the cap is raised to 400, via the environment setting GBU_REPAIR_PASSES = 400; the default stays 80.
+- **Recipe unchanged:** s3 finished at pass 46, so it would be bit-identical under the new cap. Nothing else in the recipe changes.
+- **Fallback, fixed now:** if seed 4 still fails at 400 passes, seed 5 is used, with the same settings.
