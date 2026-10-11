@@ -399,11 +399,24 @@ repair pass 396 iterations 72161389 deficient left 2
 repair pass 397 iterations 72191389 deficient left 2
 repair pass 398 iterations 72206389 deficient left 2
 repair pass 399 iterations 72216389 deficient left 2
-Traceback (most recent call last):
-  File "/home/runner/work/gameboard-universe/gameboard-universe/code/glass5.py", line 14, in <module>
-    t0 = time.time(); pos, nb = B.random_network_lean(n, Lb, seed, passes=400); log(f'network built in {time.time()-t0:.0f}s')
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/gameboard-universe/gameboard-universe/code/bigglass.py", line 57, in random_network_lean
-    assert (deg == 4).all()
-           ^^^^^^^^^^^^^^^^
-AssertionError
+guided endgame: deficient 2 -> steps 644 deficient left 0
+[10:32:39] network built in 518s
+[10:49:10] FIRE it 200 E/atom 46551.12044 fmax 6.69e+05 dt 0.000 (991s)
+[11:05:41] FIRE it 400 E/atom 46390.64424 fmax 8.18e+05 dt 0.003 (1981s)
+[11:22:19] FIRE it 600 E/atom 46363.69765 fmax 5.65e+04 dt 0.002 (2980s)
+[11:39:39] FIRE it 800 E/atom 46353.65190 fmax 2.89e+05 dt 0.003 (4020s)
+[11:57:59] FIRE it 1000 E/atom 46348.44632 fmax 5.14e+03 dt 0.001 (5120s)
+[12:14:35] FIRE it 1200 E/atom 46345.02003 fmax 1.41e+05 dt 0.003 (6116s)
+[12:30:52] FIRE it 1400 E/atom 46342.79353 fmax 2.21e+03 dt 0.001 (7093s)
+[12:47:11] FIRE it 1600 E/atom 46341.17294 fmax 6.02e+03 dt 0.001 (8072s)
+[13:03:30] FIRE it 1800 E/atom 46339.81194 fmax 6.50e+04 dt 0.001 (9051s)
+[13:19:54] FIRE it 2000 E/atom 46338.82931 fmax 2.79e+03 dt 0.001 (10035s)
+[13:36:15] FIRE it 2200 E/atom 46337.91051 fmax 2.63e+04 dt 0.000 (11016s)
+[13:52:38] FIRE it 2400 E/atom 46337.23173 fmax 9.34e+02 dt 0.001 (11999s)
+[14:09:12] FIRE it 2600 E/atom 46336.61876 fmax 7.52e+03 dt 0.003 (12993s)
+[14:25:48] FIRE it 2800 E/atom 46336.10121 fmax 1.06e+04 dt 0.001 (13989s)
+[14:42:14] FIRE it 3000 E/atom 46335.64910 fmax 3.55e+04 dt 0.003 (14975s)
+[14:58:42] FIRE it 3200 E/atom 46335.26966 fmax 1.45e+04 dt 0.001 (15963s)
+[15:15:18] FIRE it 3400 E/atom 46334.95059 fmax 4.44e+03 dt 0.001 (16959s)
+[15:31:56] FIRE it 3600 E/atom 46334.62939 fmax 8.34e+03 dt 0.001 (17957s)
+[15:35:14] saved state, st=[0.0013802566202413865, 0.08687458127689782, 19.0, 3640.0, 640529415220.0338, 510.54010374404163, 0.0]
