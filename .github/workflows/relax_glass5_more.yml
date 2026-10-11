@@ -21,7 +21,7 @@ jobs:
         working-directory: code
         run: |
           set -o pipefail; mkdir -p ../results/glass5
-          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax2.log
+          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/more1.log
       - uses: actions/upload-artifact@v4
         with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
       - name: Save log
@@ -45,7 +45,7 @@ jobs:
         working-directory: code
         run: |
           set -o pipefail; mkdir -p ../results/glass5
-          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax3.log
+          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/more2.log
       - uses: actions/upload-artifact@v4
         with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
       - name: Save log
@@ -69,7 +69,7 @@ jobs:
         working-directory: code
         run: |
           set -o pipefail; mkdir -p ../results/glass5
-          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax4.log
+          python -u glass5.py relax --maxit 20000 --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/more3.log
       - uses: actions/upload-artifact@v4
         with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
       - name: Save log
