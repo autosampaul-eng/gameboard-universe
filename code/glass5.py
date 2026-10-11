@@ -2,7 +2,7 @@
 python glass5.py build|relax|finish --state DIR --deadline UNIXTIME"""
 import numpy as np, os, sys, json, time, argparse
 import crn, bigglass as B
-ap = argparse.ArgumentParser(); ap.add_argument('mode'); ap.add_argument('--state', default='../state'); ap.add_argument('--deadline', type=float, default=1e30); a = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument('mode'); ap.add_argument('--state', default='../state'); ap.add_argument('--deadline', type=float, default=1e30); ap.add_argument('--maxit', type=int, default=5000); a = ap.parse_args()
 DMAX = 0.1   # Amendment 2: largest move per atom per relaxation step (Angstrom)
 ncell, seed = 120, 5; aa = 4 * crn.D / np.sqrt(3); Lb = ncell * aa; n = 8 * ncell ** 3; tag = f'glass_n{n}_s{seed}'
 NET = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'networks'); S = a.state; os.makedirs(S, exist_ok=True)
@@ -16,8 +16,9 @@ if a.mode == 'build':
     v = np.zeros_like(pos); st = B.new_state()
     B.relax(pos, nb, Lb, v, st, budget_s=a.deadline - time.time(), log=log, dmax=DMAX); save(pos, nb, v, st); log(f'saved state, st={st.tolist()}')
 elif a.mode == 'relax':
-    pos, nb, v, st = load(); log(f'resuming at FIRE it {int(st[3])}, converged flag {st[6]}')
-    if st[6] == 0: B.relax(pos, nb, Lb, v, st, budget_s=a.deadline - time.time(), log=log, dmax=DMAX); save(pos, nb, v, st)
+    pos, nb, v, st = load(); log(f'resuming at FIRE it {int(st[3])}, converged flag {st[6]}, maxit {a.maxit}')
+    if st[6] == -1 and st[3] < a.maxit: st[6] = 0.0; log('Amendment 3: continuing the same relaxation past the 5,000-step cap')
+    if st[6] == 0: B.relax(pos, nb, Lb, v, st, maxit=a.maxit, budget_s=a.deadline - time.time(), log=log, dmax=DMAX); save(pos, nb, v, st)
     log(f'st={st.tolist()}')
 elif a.mode == 'finish':
     pos, nb, v, st = load(); assert st[6] != 0, 'relaxation not finished'

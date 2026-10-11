@@ -98,3 +98,11 @@ Any outcome is reported as found.
   - Expected: links identical, positions different, E/atom within 1%.
   - If E/atom differs by more than 2%, the capped recipe is treated as a different glass recipe, and the S criterion is reported but not scored.
 - **The direction-spread criterion Q is unaffected** in its logic: it compares the spread within each glass.
+
+## Amendment 3 (October 11, 2026, 22:10 UTC, before the s5 relaxation reached its step cap and before any particle run)
+- **Situation:** at step 4,400 of the 5,000-step relaxation cap, s5 is at E/atom 7.36978 (flat since step 3,200), with largest force 1.05×10⁻² against the required 10⁻³.
+  - The largest force over 13.8M atoms is an extreme of 8× more atoms than in s3/s4, so it can take longer to bring under the limit.
+- **Change:** if the cap is reached without the largest force falling below 10⁻³, the same relaxation continues from its saved state (same velocities and step size, no restart) up to 20,000 steps.
+  - The force rule (largest force < 10⁻³) is unchanged and remains criterion 0b.
+  - The step count is reported.
+- **If 20,000 steps are reached without convergence,** criterion 0b fails and Q is not judged.
