@@ -1,0 +1,124 @@
+name: build_glass5
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - name: build
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u glass5.py build --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/build.log
+      - uses: actions/upload-artifact@v4
+        with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
+      - name: Save log
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/glass5; git commit -m "glass5 build log [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
+  relax2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - uses: actions/download-artifact@v4
+        with: { name: state, path: state }
+      - name: relax
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u glass5.py relax --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax2.log
+      - uses: actions/upload-artifact@v4
+        with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
+      - name: Save log
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/glass5; git commit -m "glass5 relax2 log [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
+  relax3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    needs: relax2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - uses: actions/download-artifact@v4
+        with: { name: state, path: state }
+      - name: relax
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u glass5.py relax --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax3.log
+      - uses: actions/upload-artifact@v4
+        with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
+      - name: Save log
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/glass5; git commit -m "glass5 relax3 log [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
+  relax4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    needs: relax3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - uses: actions/download-artifact@v4
+        with: { name: state, path: state }
+      - name: relax
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u glass5.py relax --state ../state --deadline $(( $(date +%s) + 18600 )) 2>&1 | tee ../results/glass5/relax4.log
+      - uses: actions/upload-artifact@v4
+        with: { name: state, path: state, overwrite: true, compression-level: 0, retention-days: 7 }
+      - name: Save log
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/glass5; git commit -m "glass5 relax4 log [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    needs: relax4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - uses: actions/download-artifact@v4
+        with: { name: state, path: state }
+      - name: Quality, residual force and c
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u glass5.py finish --state ../state 2>&1 | tee ../results/glass5/finish.log
+      - name: Publish network as a release, save json and logs
+        if: success()
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          gh release create glass-s5 networks/glass_n13824000_s5_raw_pos.npy networks/glass_n13824000_s5_raw_nb.npy --repo ${{ github.repository }} --title "Glass s5 (13.8M nodes, untiled, Exp 4k)" --notes "Same recipe as s3/s4 (seed 5, ncell 120). Quality and measured c in networks/glass_n13824000_s5_*.json."
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add networks/glass_n13824000_s5_raw.json networks/glass_n13824000_s5_c.json results/glass5
+          git commit -m "glass5 finished: quality and c [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done

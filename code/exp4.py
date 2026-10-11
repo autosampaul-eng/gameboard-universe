@@ -13,6 +13,9 @@ def load_net(name):
     if name == 'glass':
         pos = np.load(G5 + 'glass_n1728000_s3_raw_pos.npy'); nb = np.load(G5 + 'glass_n1728000_s3_raw_nb.npy').astype(np.int64)
         LB = 2 * 30 * 4 * 2.35 / np.sqrt(3)
+    elif name == 'glass5':   # Exp 4k: untiled 13.8M glass, same recipe, seed 5, ncell 120 (652 A box)
+        pos = np.load(G5 + 'glass_n13824000_s5_raw_pos.npy'); nb = np.load(G5 + 'glass_n13824000_s5_raw_nb.npy').astype(np.int64)
+        LB = 120 * 4 * 2.35 / np.sqrt(3)
     elif name == 'glass4':   # independent replication sample (Exp 4i-R), same recipe as s3, seed 4
         pos = np.load(G5 + 'glass_n1728000_s4_raw_pos.npy'); nb = np.load(G5 + 'glass_n1728000_s4_raw_nb.npy').astype(np.int64)
         LB = 2 * 30 * 4 * 2.35 / np.sqrt(3)
