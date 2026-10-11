@@ -1,0 +1,17 @@
+greedy: deficient nodes 156828
+links identical to published s4: True
+FIRE it 200 E/atom 7.59408 fmax 8.57e-01 dt 0.057 clamped 52069903 (94s)
+FIRE it 400 E/atom 7.59322 fmax 1.03e+00 dt 0.056 clamped 52070272 (190s)
+FIRE it 600 E/atom 7.59304 fmax 8.08e-01 dt 0.167 clamped 52070350 (284s)
+FIRE it 800 E/atom 7.59296 fmax 8.99e-01 dt 0.056 clamped 52070382 (374s)
+FIRE it 1000 E/atom 7.59294 fmax 5.27e-01 dt 0.062 clamped 52070399 (463s)
+FIRE it 1200 E/atom 7.59292 fmax 4.83e-03 dt 0.101 clamped 52070404 (553s)
+FIRE it 1400 E/atom 7.59292 fmax 2.38e-01 dt 0.062 clamped 52070405 (644s)
+FIRE it 1600 E/atom 7.59291 fmax 1.91e-01 dt 0.100 clamped 52070405 (735s)
+FIRE it 1800 E/atom 7.59291 fmax 5.01e-02 dt 0.163 clamped 52070405 (827s)
+FIRE it 2000 E/atom 7.59291 fmax 9.01e-02 dt 0.109 clamped 52070405 (920s)
+FIRE it 2200 E/atom 7.59291 fmax 3.74e-01 dt 0.215 clamped 52070405 (1013s)
+FIRE it 2400 E/atom 7.59291 fmax 3.46e-02 dt 0.144 clamped 52070405 (1104s)
+FIRE it 2600 E/atom 7.59291 fmax 6.52e-03 dt 0.053 clamped 52070405 (1196s)
+FIRE it 2641 E/atom 7.59291 fmax 1.89e-04 dt 0.106 clamped 52070405 (1215s)
+{"links_identical": true, "positions_identical": false, "max_pos_diff": 1.8189869434267507, "fire_iterations": 2641, "converged": 1.0, "clamped_atom_steps": 52070405, "E_per_atom": 7.592907760565694, "published_E_per_atom": 7.592908679154409, "secs": 1253.7696771621704}
