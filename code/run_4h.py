@@ -7,6 +7,8 @@ from run_4g import load_tiled, adj, build_packet, moments, D2, STARTS, eta
 
 T = 600; TS = 250; TH = 425; CONE = np.cos(np.radians(30.0)); SHELL = 0.5
 CT = {'glass': 1.5495, 'diamond': 1.3562, 'glass_small_box': 1.5495, 'raw_tiled_test': 1.529, 'diamond_small': 1.3562}
+_c4 = os.path.join(os.environ.get('GBU_NETWORKS', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'networks')), 'glass_n1728000_s4_c.json')
+if os.path.exists(_c4): CT['glass4'] = json.load(open(_c4))['c']   # measured speed limit of the replication glass (Exp 4i-R)
 
 def jobs():
     J = []
@@ -20,7 +22,7 @@ def jobs():
     return J
 
 def load(name):
-    if name in ('glass', 'diamond', 'raw_tiled_test'):
+    if name in ('glass', 'glass4', 'diamond', 'raw_tiled_test'):
         return load_tiled(name)
     base = {'glass_small_box': 'glass', 'diamond_small': 'diamond_small'}[name]
     pos, nb, rev, d, LB = load_net(base)

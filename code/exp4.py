@@ -13,6 +13,9 @@ def load_net(name):
     if name == 'glass':
         pos = np.load(G5 + 'glass_n1728000_s3_raw_pos.npy'); nb = np.load(G5 + 'glass_n1728000_s3_raw_nb.npy').astype(np.int64)
         LB = 2 * 30 * 4 * 2.35 / np.sqrt(3)
+    elif name == 'glass4':   # independent replication sample (Exp 4i-R), same recipe as s3, seed 4
+        pos = np.load(G5 + 'glass_n1728000_s4_raw_pos.npy'); nb = np.load(G5 + 'glass_n1728000_s4_raw_nb.npy').astype(np.int64)
+        LB = 2 * 30 * 4 * 2.35 / np.sqrt(3)
     elif name in ('smooth_tiled', 'raw_tiled'):
         import exp2
         tag = 's1_final' if name == 'smooth_tiled' else 's1_raw'

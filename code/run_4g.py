@@ -14,7 +14,7 @@ STARTS = [(0.5, 0.5, 0.5), (0.25, 0.25, 0.75), (0.75, 0.25, 0.25), (0.25, 0.75, 
 
 def load_tiled(name):
     """Tile a base network 2x2x2. rev and bond vectors are copies of the base (tiling preserves slot structure)."""
-    base = {'glass': 'glass', 'diamond': 'diamond', 'raw_tiled_test': 'glass_small_raw'}[name]
+    base = {'glass': 'glass', 'glass4': 'glass4', 'diamond': 'diamond', 'raw_tiled_test': 'glass_small_raw'}[name]
     if base == 'glass_small_raw':
         from exp4 import G5; L0 = 30 * 4 * 2.35 / np.sqrt(3)
         p0 = np.load(G5 + 'glass_n216000_s1_raw_pos.npy') % L0; n0 = np.load(G5 + 'glass_n216000_s1_raw_nb.npy').astype(np.int64)
