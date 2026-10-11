@@ -80,3 +80,21 @@ Any outcome is reported as found.
   - Both results are symmetric, with no duplicate links and no ring of 4 or fewer anywhere.
 - **Chosen instead of a new seed:** the 4i-R s4 build also ended with 2 stuck nodes at 80 passes. At 8× the size, a stuck pair is likely for any seed.
 - **Seed and everything else unchanged.** The number of endgame steps will be reported.
+
+## Amendment 2 (October 11, 2026, before any s5 particle run)
+- **What happened:** the s5 relaxation blew up.
+  - A diagnostic rebuild (run 38152843597, `results/glass5/diag.log`) shows the network itself is normal. It starts at E/atom 29.4 (99.99th percentile atom: 174), with the longest bond 9.5 Å, no bond over 9.5 Å, and no duplicate or missing links.
+  - The relaxation went normally to E/atom 7.375 by step 110. Then, between steps 110 and 120, a few atoms overshot in one step, and the stiff Keating energy (force growing roughly as the cube of the stretch) ran away.
+  - By step 120, 3,856 bonds were over 9 Å (up to 535 Å) and E/atom was 151,816. The original first stage (run 38131782500) ended stuck at E/atom 46,335.
+  - The s3/s4 builds (1.73M atoms) did not hit this. A rare stiff atom is about 8× more likely in 13.8M.
+- **Change:** a per-atom move cap of 0.1 Å per relaxation step (the LAMMPS FIRE default `dmax`).
+  - Velocities are unchanged; only the position step of an atom that would move more than 0.1 Å is shortened. Clamped atom-steps are counted and reported.
+  - Without the cap, the code is still bit-identical to `crn.global_relax` (re-tested).
+- **This changes the relaxation path, so it is a recipe change for s5:**
+  - On 8k- and 22k-node test glasses, the cap triggers in the early steps (2×10⁵ and 6×10⁵ clamped atom-steps).
+  - It reaches different final positions with the same E/atom to 4 decimals (5.6843 vs 5.6843; 5.4354 vs 5.4354).
+- **Control (added):** s4 is rebuilt from the same seed with the cap (`check_s4_dmax.py`): the same network links, then relaxed with the cap.
+  - Its quality is compared with the published s4: E/atom, bond and angle rms, and iterations.
+  - Expected: links identical, positions different, E/atom within 1%.
+  - If E/atom differs by more than 2%, the capped recipe is treated as a different glass recipe, and the S criterion is reported but not scored.
+- **The direction-spread criterion Q is unaffected** in its logic: it compares the spread within each glass.

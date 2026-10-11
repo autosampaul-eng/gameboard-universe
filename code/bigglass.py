@@ -65,9 +65,9 @@ def random_network_lean(n, Lb, seed, passes=80, chunk=1_000_000):
     return pts, nb
 
 @njit(cache=True)
-def fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, nits):
+def fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, nits, dmax=1e300):
     """Continue crn.fire (mov = cen = all atoms, Ecut off) for up to nits iterations.
-    st = [dt, alpha, npos, it, E, fmax, converged]."""
+    st = [dt, alpha, npos, it, E, fmax, converged, clamped atom-steps]. dmax = largest move per atom per step."""
     n = pos.shape[0]; dtmax = 0.3
     dt = st[0]; alpha = st[1]; npos = int(st[2]); it0 = int(st[3]); E = st[4]; fmax = st[5]
     for it in range(it0, min(maxit, it0 + nits)):
@@ -105,20 +105,28 @@ def fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, nits):
                 for c in range(3):
                     v[x, c] = 0.0
         for x in range(n):
+            s2 = 0.0
             for c in range(3):
                 v[x, c] += -g[x, c] * dt
-                pos[x, c] += v[x, c] * dt
+                s2 += (v[x, c] * dt) ** 2
+            if s2 > dmax * dmax:          # safeguard: no atom moves more than dmax in one step (counted)
+                sc = dmax / np.sqrt(s2); st[7] += 1.0
+                for c in range(3):
+                    pos[x, c] += v[x, c] * dt * sc
+            else:
+                for c in range(3):
+                    pos[x, c] += v[x, c] * dt
     st[0] = dt; st[1] = alpha; st[2] = npos; st[3] = min(maxit, it0 + nits); st[4] = E; st[5] = fmax
     if st[3] >= maxit: st[6] = -1.0          # hit the iteration cap (as crn.fire would)
 
 def new_state():
-    return np.array([0.05, 0.1, 0.0, 0.0, 0.0, np.inf, 0.0])
+    return np.array([0.05, 0.1, 0.0, 0.0, 0.0, np.inf, 0.0, 0.0])
 
-def relax(pos, nb, Lb, v, st, ftol=1e-3, maxit=5000, budget_s=1e30, chunk=20, log=print):
+def relax(pos, nb, Lb, v, st, ftol=1e-3, maxit=5000, budget_s=1e30, chunk=20, log=print, dmax=1e300):
     g = np.zeros_like(pos); t0 = time.time()
     while st[6] == 0 and time.time() - t0 < budget_s:
-        fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, chunk)
-        if int(st[3]) % 200 == 0 or st[6] != 0: log(f"FIRE it {int(st[3])} E/atom {st[4]/len(pos):.5f} fmax {st[5]:.2e} dt {st[0]:.3f} ({time.time()-t0:.0f}s)")
+        fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, chunk, dmax)
+        if int(st[3]) % 200 == 0 or st[6] != 0: log(f"FIRE it {int(st[3])} E/atom {st[4]/len(pos):.5f} fmax {st[5]:.2e} dt {st[0]:.3f} clamped {int(st[7])} ({time.time()-t0:.0f}s)")
     return st
 
 @njit(cache=True)

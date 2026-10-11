@@ -1,0 +1,25 @@
+name: check_s4_dmax
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install numpy==2.2.* scipy numba
+      - name: diag
+        working-directory: code
+        run: |
+          set -o pipefail; mkdir -p ../results/glass5
+          python -u check_s4_dmax.py 2>&1 | grep -v "repair pass" | tee ../results/glass5/check_s4_dmax.log
+      - name: Save log
+        if: always()
+        run: |
+          git config user.name github-actions; git config user.email 41898283+github-actions[bot]@users.noreply.github.com
+          git add results/glass5; git commit -m "glass5 s4 cap check [skip ci]" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
