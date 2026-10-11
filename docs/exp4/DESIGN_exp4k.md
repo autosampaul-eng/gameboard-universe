@@ -66,3 +66,17 @@ Gameboard Universe. Written October 11, 2026, before the new glass was built.
 - **The 1/√volume prediction** assumes the anisotropy comes from short-range-correlated random structure.
 
 Any outcome is reported as found.
+
+## Amendment 1 (October 11, 2026, before any s5 relaxation or particle run)
+- **What happened:** the first s5 build (GitHub run 38130936935) stopped at the 400-pass repair cap with 2 nodes still one link short. These were the last 2 of 1,254,447 deficient nodes after the greedy pass, and they stayed stuck from about pass 100 to pass 399.
+  - The builder's repair moves a missing link randomly, so two lone gaps far apart in a 13.8M-node box rarely meet.
+- **Change:** if gaps remain after the repair passes, a final guided step (`bigglass.guided_endgame`) pairs them up.
+  - It uses the repair's own move: remove link x–y, add u–x, and the gap passes to y.
+  - Half the steps choose x among u's neighbours closest to the partner gap; half are the repair's ordinary random choice.
+  - Same constraints as the repair: no duplicate links and no rings of 4 or fewer.
+  - It touches only the links along one short path. Networks that the repair completes are unchanged, so the bit-identity test of 0a still holds.
+- **Tested before use:**
+  - Two gaps 18 Å apart (6k-node box) closed in 54 steps; two gaps 78 Å apart (110k-node box) closed in 219 steps.
+  - Both results are symmetric, with no duplicate links and no ring of 4 or fewer anywhere.
+- **Chosen instead of a new seed:** the 4i-R s4 build also ended with 2 stuck nodes at 80 passes. At 8× the size, a stuck pair is likely for any seed.
+- **Seed and everything else unchanged.** The number of endgame steps will be reported.

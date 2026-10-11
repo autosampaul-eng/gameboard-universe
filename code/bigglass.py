@@ -54,6 +54,10 @@ def random_network_lean(n, Lb, seed, passes=80, chunk=1_000_000):
         print('repair pass', p, 'iterations', it, 'deficient left', left, flush=True)
         if left == 0:
             break
+    left = int((deg < 4).sum())
+    if left:
+        steps = guided_endgame(nb, deg, cand, pts, Lb, seed + 10_000, 10 * n)
+        print('guided endgame: deficient', left, '-> steps', steps, 'deficient left', int((deg < 4).sum()), flush=True)
     assert (deg == 4).all()
     for i in range(0, n, max(1, n // 1000)):
         for j in nb[i]:
@@ -116,3 +120,65 @@ def relax(pos, nb, Lb, v, st, ftol=1e-3, maxit=5000, budget_s=1e30, chunk=20, lo
         fire_chunk(pos, nb, Lb, g, v, st, ftol, maxit, chunk)
         if int(st[3]) % 200 == 0 or st[6] != 0: log(f"FIRE it {int(st[3])} E/atom {st[4]/len(pos):.5f} fmax {st[5]:.2e} dt {st[0]:.3f} ({time.time()-t0:.0f}s)")
     return st
+
+@njit(cache=True)
+def _mi(d, Lb):
+    return d - Lb * np.round(d / Lb)
+
+@njit(cache=True)
+def _dist2(pos, i, j, Lb):
+    s = 0.0
+    for c in range(3):
+        d = _mi(pos[j, c] - pos[i, c], Lb); s += d * d
+    return s
+
+@njit(cache=True)
+def guided_endgame(nb, deg, cand, pos, Lb, seed, maxsteps):
+    """Pair up the remaining deficient nodes: walk the deficiency of u toward its nearest deficient partner t with the
+    repair's own steal move (remove x-y, add u-x, deficiency passes to y), choosing x among u's candidates closest to t.
+    Same constraints as build.repair: no duplicate links, no rings of length <= 4."""
+    np.random.seed(seed)
+    n = nb.shape[0]; K = cand.shape[1]
+    stamp = np.zeros(n, np.int64); buf = np.empty(1024, np.int64); tag = 0
+    steps = 0
+    while steps < maxsteps:
+        holes = np.nonzero(deg < 4)[0]
+        if holes.shape[0] == 0:
+            return steps
+        u = holes[0]; t = holes[1] if holes.shape[0] > 1 else holes[0]
+        best = 1e300
+        for h in holes[1:]:
+            d2 = _dist2(pos, u, h, Lb)
+            if d2 < best: best = d2; t = h
+        while deg[u] < 4 and steps < maxsteps:
+            steps += 1
+            done = False
+            for q in range(K):                       # 1) join a nearby deficient node (as in repair)
+                v = cand[u, q]
+                if v != u and deg[v] < 4 and not build.adj(nb, deg, u, v):
+                    tag += 1
+                    if not build.ring_le4(nb, deg, u, v, stamp, tag, buf):
+                        build.add(nb, deg, u, v); done = True; break
+            if done:
+                break
+            # 2) guided steal: x among the 3 candidates of u closest to t (random pick), y a random neighbour of x
+            #    half the moves are the repair's own random steal, so the walk can step around blocked joins
+            if np.random.random() < 0.5:
+                x = cand[u, np.random.randint(12)]
+            else:
+                dd = np.empty(K)
+                for q in range(K): dd[q] = _dist2(pos, cand[u, q], t, Lb)
+                order = np.argsort(dd)
+                x = cand[u, order[np.random.randint(3)]]
+            if x == u or build.adj(nb, deg, u, x) or deg[x] == 0:
+                continue
+            y = nb[x, np.random.randint(deg[x])]
+            if y == u:
+                continue
+            build.rem(nb, deg, x, y)
+            tag += 1
+            if build.ring_le4(nb, deg, u, x, stamp, tag, buf):
+                build.add(nb, deg, x, y); continue
+            build.add(nb, deg, u, x)
+            u = y
+    return -steps
