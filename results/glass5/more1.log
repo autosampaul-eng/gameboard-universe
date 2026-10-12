@@ -1,0 +1,15 @@
+[22:48:21] resuming at FIRE it 5000, converged flag -1.0, maxit 20000
+[22:48:21] Amendment 3: continuing the same relaxation past the 5,000-step cap
+[23:08:23] FIRE it 5200 E/atom 7.36977 fmax 2.76e-01 dt 0.056 clamped 414373039 (1202s)
+[23:28:28] FIRE it 5400 E/atom 7.36977 fmax 7.96e-02 dt 0.201 clamped 414373039 (2407s)
+[23:48:28] FIRE it 5600 E/atom 7.36977 fmax 5.86e-02 dt 0.056 clamped 414373039 (3607s)
+[00:08:18] FIRE it 5800 E/atom 7.36977 fmax 1.35e-02 dt 0.075 clamped 414373039 (4797s)
+[00:28:11] FIRE it 6000 E/atom 7.36977 fmax 4.61e-02 dt 0.055 clamped 414373039 (5990s)
+[00:48:00] FIRE it 6200 E/atom 7.36977 fmax 9.79e-02 dt 0.074 clamped 414373039 (7179s)
+[01:08:03] FIRE it 6400 E/atom 7.36977 fmax 4.72e-02 dt 0.055 clamped 414373039 (8382s)
+[01:28:02] FIRE it 6600 E/atom 7.36977 fmax 5.51e-02 dt 0.098 clamped 414373039 (9581s)
+[01:48:00] FIRE it 6800 E/atom 7.36977 fmax 1.37e-01 dt 0.193 clamped 414373039 (10779s)
+[02:07:54] FIRE it 7000 E/atom 7.36977 fmax 2.52e-02 dt 0.130 clamped 414373039 (11972s)
+[02:27:51] FIRE it 7200 E/atom 7.36977 fmax 1.16e-02 dt 0.053 clamped 414373039 (13170s)
+[02:32:08] FIRE it 7242 E/atom 7.36977 fmax 3.40e-04 dt 0.105 clamped 414373039 (13427s)
+[02:32:09] st=[0.10457529854609968, 0.1, 0.0, 7242.0, 101879744.5851051, 0.0003397637223736538, 1.0, 414373039.0]
