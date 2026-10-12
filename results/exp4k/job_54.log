@@ -1,0 +1,2 @@
+job 54 {'net': 'glass4', 'dir': '231', 'start': (0.5, 0.5, 0.5), 'point': 5, 'vf': 0.5607329573267922, 'sig': 79.99999999999999, 'k0_target': 0.06453694740238786}: c=1.5740202363974465 N=13824000 box=651.3 base=325.6 loaded 5s
+glass4 point 5 dir 231 launch 0.56073: particle-only v/c 0.54666 (whole-box 0.54773) 1/tau 4.0505e-05 1/ell 4.7074e-05 | max|ds| 2.32 s0 0.0005 | clock -0.21% norm 2.9e-14 | total 937s
