@@ -1,0 +1,2 @@
+job 6 {'net': 'glass5', 'dir': '123', 'start': (0.5, 0.5, 0.5), 'point': 1, 'vf': 0.8030141368175815, 'sig': 40.0, 'k0_target': 0.12907389480477569}: c=1.565881665359482 N=13824000 box=651.3 base=651.3 loaded 12s
+glass5 point 1 dir 123 launch 0.80301: particle-only v/c 0.74479 (whole-box 0.75586) 1/tau 7.3924e-04 1/ell 6.3386e-04 | max|ds| 35.04 s0 0.0025 | clock -2.15% norm 2.0e-12 | total 1217s
