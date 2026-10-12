@@ -1,4 +1,4 @@
 loaded N=13824000 box=651.3 A in 5s
-tick time at 13.8M nodes: 0.326s
-sparse matvec time: 0.584s
+tick time at 13.8M nodes: 0.192s
+sparse matvec time: 0.653s
 peak memory: 4699 MB
