@@ -1,0 +1,10 @@
+[15:31:06] {'net': 'diamond', 'dir': '100', 'start': 0, 'set': 'C', 'i': 1, 'j': 3, 'vf': 0.6859943405700354, 'gb': np.float64(0.9428090415820636), 'eta': 0.1261344622880572, 'sig': 67.27171322029716, 'k0': np.float64(0.08768670660689584), 'lam_bonds': np.float64(26.1992451597923), 'v_pkt_an': 0.6818619947374486}: N=46,656,000 box=976.9 loaded 20s
+[15:34:14] built: cg 369 e_in 8.0e-16 e_out 1.0e-10 188s rss 5.55 GB peak 9.19 GB
+[15:34:24] tick 0: ds +0.000 pp, rss 8.91 GB
+[15:36:26] tick 100: ds -0.000 pp, rss 8.91 GB
+[15:38:27] tick 200: ds -0.000 pp, rss 8.91 GB
+[15:40:28] tick 300: ds -0.000 pp, rss 8.91 GB
+[15:42:29] tick 400: ds -0.000 pp, rss 8.91 GB
+[15:44:28] tick 500: ds -0.000 pp, rss 8.91 GB
+[15:46:27] tick 600: ds -0.000 pp, rss 8.91 GB
+[15:46:28] RESULT diamond i1 j3 100 eta 0.1261 k0 0.08769: v_p 0.68001 (launch 0.68599, packet 0.68186) delta +0.271% raw +0.872% | 1/ell 4.2068e-20 | max|ds| 0.000 1/tau 3.88e-20 whole 0.68001 | clock -0.19% norm 1.5e-11 | 922s peak 9.25 GB
