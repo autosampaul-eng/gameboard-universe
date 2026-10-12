@@ -1,0 +1,10 @@
+[12:13:53] {'net': 'glass', 'dir': '123', 'start': 1, 'set': 'G', 'i': 0, 'j': 3, 'vf': 0.7999999999999999, 'gb': np.float64(1.333333333333333), 'eta': 0.08919053362520409, 'sig': 67.27171322029716, 'k0': np.float64(0.07674779703147601), 'lam_bonds': np.float64(29.933439297373685), 'v_pkt_an': 0.7926549940049997}: N=46,656,000 box=976.9 loaded 8s
+[12:29:12] built: cg 487 e_in 1.3e-15 e_out 1.1e-10 918s rss 5.18 GB peak 8.82 GB
+[12:29:22] tick 0: ds +0.000 pp, rss 8.54 GB
+[12:32:06] tick 100: ds +0.914 pp, rss 8.54 GB
+[12:34:50] tick 200: ds +1.987 pp, rss 8.54 GB
+[12:37:33] tick 300: ds +3.146 pp, rss 8.54 GB
+[12:40:17] tick 400: ds +4.324 pp, rss 8.54 GB
+[12:43:02] tick 500: ds +5.390 pp, rss 8.54 GB
+[12:45:50] tick 600: ds +6.487 pp, rss 8.54 GB
+[12:45:50] RESULT glass i0 j3 123 eta 0.0892 k0 0.07675: v_p 0.77813 (launch 0.80000, packet 0.79265) delta +1.832% raw +2.734% | 1/ell 9.7008e-05 | max|ds| 6.487 1/tau 1.17e-04 whole 0.77808 | clock -0.79% norm 1.3e-11 | 1916s peak 8.88 GB
