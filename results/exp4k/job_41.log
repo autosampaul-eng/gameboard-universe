@@ -1,0 +1,2 @@
+job 41 {'net': 'glass4', 'dir': '010', 'start': (0.25, 0.25, 0.75), 'point': 1, 'vf': 0.8044890492566479, 'sig': 40.0, 'k0_target': 0.12907389480477569}: c=1.5740202363974465 N=13824000 box=651.3 base=325.6 loaded 6s
+glass4 point 1 dir 010 launch 0.80449: particle-only v/c 0.74909 (whole-box 0.73109) 1/tau 7.5482e-04 1/ell 6.4018e-04 | max|ds| 35.85 s0 0.0025 | clock -1.75% norm 2.7e-12 | total 1057s
