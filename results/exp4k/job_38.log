@@ -1,0 +1,2 @@
+job 38 {'net': 'glass', 'dir': '231', 'start': (0.5, 0.5, 0.5), 'point': 5, 'vf': 0.554700196225229, 'sig': 79.99999999999999, 'k0_target': 0.06453694740238786}: c=1.5495 N=13824000 box=651.3 base=325.6 loaded 6s
+glass point 5 dir 231 launch 0.55470: particle-only v/c 0.54024 (whole-box 0.54071) 1/tau 4.3081e-05 1/ell 5.1464e-05 | max|ds| 2.42 s0 0.0007 | clock -0.22% norm 6.8e-14 | total 1376s
