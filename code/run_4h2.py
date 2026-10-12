@@ -39,11 +39,12 @@ def mode_weights(kpts, d, ce, eta):
         out[m] = num / sq
     return out
 
-def tracker_weight(fwd, n, LB, d0, nsub=20000):
+def tracker_weight(fwd, n, LB, d0, nsub=20000, eta_=None):
+    eta_ = eta if eta_ is None else eta_          # Exp 4j: per-run eta (default unchanged)
     k1 = 2 * np.pi * np.fft.fftfreq(n, d=LB / n)
     idx = np.nonzero(fwd); kp = np.stack([k1[idx[0]], k1[idx[1]], k1[idx[2]]], 1)
     sub = d0[np.random.default_rng(0).choice(len(d0), min(nsub, len(d0)), replace=False)]
-    w = mode_weights(kp, np.ascontiguousarray(sub), np.cos(eta), eta)
+    w = mode_weights(kp, np.ascontiguousarray(sub), np.cos(eta_), eta_)
     h = LB / n; Wc = np.prod(np.sinc(kp * h / 2 / np.pi) ** 2, 1)
     Wt = np.zeros((n, n, n)); Wt[idx] = np.sqrt(w) / Wc
     return Wt, float(w.min()), float(w.max())

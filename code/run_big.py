@@ -22,7 +22,7 @@ def load(name, T):
         r0 = np.argmax(n0[n0] == np.arange(len(n0))[:, None, None], axis=2)
         d0 = p0[n0] - p0[:, None, :]; d0 -= L0 * np.round(d0 / L0)
     else:
-        p0, n0, r0, d0, L0 = load_net({'glass': 'glass', 'diamond': 'diamond', 'd216': 'diamond_small'}[name])
+        p0, n0, r0, d0, L0 = load_net({'glass': 'glass', 'glass4': 'glass4', 'diamond': 'diamond', 'd216': 'diamond_small'}[name])
     bip0 = bipartite_sign(n0) if name in ('diamond', 'd216') else None
     rev0 = np.ascontiguousarray(r0, dtype=np.int32)
     if T == 1:
@@ -35,7 +35,17 @@ def load(name, T):
 
 def gridn(LB): return int(max(32, 16 * round(LB / 5.0866 / 16)))
 
-def one(pos, nb, rev0, d0, LB, bip, c, vf, dn, SIG, c0, Tn, log):
+def v_packet(F, Wt, n, LB, c, eta_, u):
+    """Exp 4j: speed (in units of c) the tracker would see in a perfect continuum: the group velocity
+    c^2 (k.u)/sqrt(eta^2 + c^2 k^2), averaged over the tracker-weighted spectrum |F Wt|^2 of the initial packet."""
+    k1 = 2 * np.pi * np.fft.fftfreq(n, d=LB / n); idx = np.nonzero(Wt)
+    KX, KY, KZ = k1[idx[0]], k1[idx[1]], k1[idx[2]]; K2 = KX ** 2 + KY ** 2 + KZ ** 2
+    wgt = np.abs(F[idx] * Wt[idx]) ** 2
+    vu = c * c * (KX * u[0] + KY * u[1] + KZ * u[2]) / np.sqrt(eta_ ** 2 + c * c * K2)
+    return float((wgt * vu).sum() / wgt.sum() / c)
+
+def one(pos, nb, rev0, d0, LB, bip, c, vf, dn, SIG, c0, Tn, log, eta_=None):
+    eta = globals()['eta'] if eta_ is None else eta_      # Exp 4j: per-run eta (default unchanged)
     u = D2[dn]; g = 1 / np.sqrt(1 - vf ** 2); kv = g * eta * vf / c * u; kn = np.linalg.norm(kv)
     w = omega(d0, kv, eta); dk = 1e-4 * u; vg = (omega(d0, kv + dk, eta) - omega(d0, kv - dk, eta)) / 2e-4
     t0 = time.time()
@@ -43,7 +53,7 @@ def one(pos, nb, rev0, d0, LB, bip, c, vf, dn, SIG, c0, Tn, log):
     tb = time.time() - t0; log(f"built: cg {info} e_in {e_in:.1e} e_out {e_out:.1e} {tb:.0f}s rss {rss():.2f} GB peak {peak():.2f} GB")
     n = gridn(LB)
     shell, fwd = masks(n, LB, kv); grid = np.zeros((n, n, n), np.complex128)
-    Wt, wmin, wmax = H2.tracker_weight(fwd, n, LB, d0)
+    Wt, wmin, wmax = H2.tracker_weight(fwd, n, LB, d0, eta_=eta)
     out = np.zeros_like(phi); ce = np.cos(eta) / 2; em = np.exp(-1j * eta); z3 = np.zeros(3); rc2 = (0.45 * LB) ** 2
     cen = c0.copy(); un = c0.copy(); cc = c0.copy(); uc = c0.copy(); co = c0.copy(); uo = c0.copy()
     rec = {k: [] for k in ['ts', 'xs', 'xc', 'xo', 'ph', 'nm', 'rms', 'rms_c', 's', 'off', 'fwd_w']}
@@ -56,6 +66,7 @@ def one(pos, nb, rev0, d0, LB, bip, c, vf, dn, SIG, c0, Tn, log):
             m = moments(phi, pos, cen, LB, rc2, kv, un - c0)
             grid[:] = 0; cic(phi, pos, LB, n, grid); F = np.fft.fftn(grid); P = np.abs(F) ** 2
             Ptot = P.sum(); Psh = P[shell].sum(); Pf = P[fwd].sum()
+            if t == 0: v_pkt = v_packet(F, Wt, n, LB, c, eta, u)   # spectrum sits at +k u; packet moves along -u (as measured below)
             rho_c = np.abs(np.fft.ifftn(F * Wt)) ** 2; rho_o = np.abs(np.fft.ifftn(np.where(fwd, F, 0))) ** 2
             for _ in range(3):
                 gm = grid_centroid(rho_c, cc, LB); sh = gm[1:4] / gm[0]; cc = (cc + sh) % LB; uc = uc + sh
@@ -70,7 +81,7 @@ def one(pos, nb, rev0, d0, LB, bip, c, vf, dn, SIG, c0, Tn, log):
             ts_ = time.time(); lean.step(phi, nb, rev0, ce, em, out); phi, out = out, phi; tstep += time.time() - ts_
     del phi, out; gc.collect()
     rec.update(kn=float(kn), e_in=e_in, e_out=e_out, cg_info=int(info), t_build=tb, t_total=time.time() - t0, grid_n=n, w_min=wmin, w_max=wmax,
-               vg_carrier=float(vg / c), t_step=tstep / max(Tn, 1), t_meas=tmeas)
+               vg_carrier=float(vg / c), v_pkt=v_pkt, eta=float(eta), t_step=tstep / max(Tn, 1), t_meas=tmeas)
     return rec
 
 if __name__ == '__main__':
